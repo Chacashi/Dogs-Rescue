@@ -929,8 +929,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 785, y: -496}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 781.83, y: -503}
+  m_SizeDelta: {x: 205.65, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2017542536
 MonoBehaviour:
@@ -944,7 +944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bf33d7cf72470141a66a2d122ea3fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: 
+  scene: Mision 1
   myButton: {fileID: 2017542537}
 --- !u!114 &2017542537
 MonoBehaviour:
@@ -1010,8 +1010,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: b71f486167b97f245bb37a8bdddd7cfe, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

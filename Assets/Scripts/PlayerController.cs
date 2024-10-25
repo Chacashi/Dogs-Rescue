@@ -47,6 +47,15 @@ public class PlayerController : MonoBehaviour
         {
             vertical = context.ReadValue<float>();
         }
+
+        if (vertical < 0)
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipY = true;
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipY = false;
+        }
         
     }
 
@@ -73,7 +82,7 @@ public class PlayerController : MonoBehaviour
             if(objetDog != null) { 
             objetDog.transform.SetParent(null);
             IsTaking = false;
-                objetDog.gameObject.GetComponent<Collider2D>().enabled = true;
+                objetDog.gameObject.SetActive(true);
 
             }
         }
@@ -98,7 +107,8 @@ public class PlayerController : MonoBehaviour
             
             objetDog.transform.SetParent(transform);
             objetDog.transform.position = transform.position;
-            objetDog.gameObject.GetComponent<Collider2D>().enabled = false;
+
+            objetDog.gameObject.SetActive(false);
 
         }
     }
