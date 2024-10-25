@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class CarController : MonoBehaviour
 {
     Rigidbody2D _compRigidbody;
     [SerializeField] float speed;
     [SerializeField] int direction;
-
+    public static event Action OnDestroyDog;
     private void Awake()
     {
         _compRigidbody = GetComponent<Rigidbody2D>();
@@ -25,5 +25,14 @@ public class CarController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (collision!= null && collision.gameObject.tag == "Dog")
+        {
+            Destroy(gameObject);
+            OnDestroyDog?.Invoke();
+        }
+
+
     }
+
+
 }

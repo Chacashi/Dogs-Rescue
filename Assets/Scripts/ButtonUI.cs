@@ -30,6 +30,8 @@ public class ButtonUI : MonoBehaviour
             ObjectUI.SetActive(true);
             Time.timeScale = 0.0f;
         }
+
+        
     }
 
 

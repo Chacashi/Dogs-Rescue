@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,8 +18,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float xMin , xMax , yMin , yMax ;
     GameObject objetDog;
     bool IsTaking = false;
-
+    public static event Action OnDestroyPlayer;
+    public static event Action OnSafeDogs;
    [SerializeField] float speed;
+    int numberSafes = 0;
+
+
 
 
 
@@ -64,8 +70,12 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
+            if(objetDog != null) { 
             objetDog.transform.SetParent(null);
             IsTaking = false;
+                objetDog.gameObject.GetComponent<Collider2D>().enabled = true;
+
+            }
         }
     }
 
@@ -84,8 +94,11 @@ public class PlayerController : MonoBehaviour
             IsTaking = true;
             objetDog = collision.gameObject;
 
+
+            
             objetDog.transform.SetParent(transform);
             objetDog.transform.position = transform.position;
+            objetDog.gameObject.GetComponent<Collider2D>().enabled = false;
 
         }
     }
@@ -96,11 +109,28 @@ public class PlayerController : MonoBehaviour
         if (collision != null && collision.gameObject.tag == "Car")
         {
             Destroy(gameObject);
+            OnDestroyPlayer?.Invoke();
+        }
+
+        if (collision != null && collision.gameObject.tag == "Safe" && IsTaking == true)
+        {
+            numberSafes++;
+            if(numberSafes >=2 ) {
+            OnSafeDogs?.Invoke();
+                 }
 
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision != null && collision.gameObject.tag=="Safe" && IsTaking ==true)
+        {
+            numberSafes--;
+        }
+    }
 
+    
 
 
 }
