@@ -19,17 +19,23 @@ public class ButtonUI : MonoBehaviour
 
     void OnClick()
     {
+       
+        {
+            if (ObjectUI.activeSelf)
+            {
+                ObjectUI.SetActive(false);
+              
+                Time.timeScale = 1.0f;
+            }
+            else
+            {
+                ObjectUI.SetActive(true);
+             
+                Time.timeScale = 0.0f;
+            }
+        }
         
-        if (ObjectUI.activeSelf)
-        {
-            ObjectUI.SetActive(false);
-            Time.timeScale = 1.0f;
-        }
-        else
-        {
-            ObjectUI.SetActive(true);
-            Time.timeScale = 0.0f;
-        }
+        
 
         
     }

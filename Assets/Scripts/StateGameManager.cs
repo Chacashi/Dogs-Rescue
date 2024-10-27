@@ -9,6 +9,10 @@ public class StateGameManager : MonoBehaviour
     [SerializeField] GameObject panelLose;
 
 
+    private void Start()
+    {
+        Time.timeScale = 1.0f;
+    }
     private void OnEnable()
     {
         PlayerController.OnDestroyPlayer += LoseGame;

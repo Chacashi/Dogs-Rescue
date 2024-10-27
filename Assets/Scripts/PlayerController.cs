@@ -57,10 +57,12 @@ public class PlayerController : MonoBehaviour
 
         if (vertical < 0)
         {
+
             gameObject.GetComponent<SpriteRenderer>().flipY = true;
         }
         else if (vertical>0)
         {
+
             gameObject.GetComponent<SpriteRenderer>().flipY = false;
         }
         
@@ -72,6 +74,7 @@ public class PlayerController : MonoBehaviour
         {
             horizontal = context.ReadValue<float>();
         }
+       
         
     
     }
@@ -110,11 +113,9 @@ public class PlayerController : MonoBehaviour
         {
             IsTaking = true;
             objetDog = collision.gameObject;
-
-
             OnTakingDog?.Invoke();
             objetDog.transform.SetParent(transform);
-            objetDog.transform.position = transform.position;
+            objetDog.transform.position =transform.position;
 
             objetDog.gameObject.SetActive(false);
 
@@ -124,8 +125,6 @@ public class PlayerController : MonoBehaviour
         {
             IsTaking = true;
             objetDog = collision.gameObject;
-
-
             OnTakingDog2?.Invoke();
             objetDog.transform.SetParent(transform);
             objetDog.transform.position = transform.position;
@@ -146,6 +145,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision != null && collision.gameObject.tag == "Safe" && IsTaking == true)
         {
+         
 
             if (objetDog.gameObject.tag == "Dog")
             {
@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
                 OnLeaveDogSafeZone?.Invoke();
                 objetDog.gameObject.transform.position = objetDog.GetComponent<DogController>().GetPositionObjective();
             }
-            else
+            else if(objetDog.gameObject.tag == "Dog 2")
             {
                 
                 objetDog.transform.SetParent(null);
@@ -171,27 +171,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    /*private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision != null && collision.gameObject.tag=="Safe" && IsTaking ==true)
         {
-            numberSafes--;
+            //numberSafes--;
         }
-    }
+    }*/
 
     void AddDogSafe()
     {
         numberSafes ++;
     }
-
+    void DeleteDogSafe()
+    {
+        numberSafes --;
+    }
     private void OnEnable()
     {
         DogController.DogsSafe += AddDogSafe;
+        DogController.DogsDanger += DeleteDogSafe;
     }
 
     private void OnDisable()
     {
         DogController.DogsSafe -= AddDogSafe;
+        DogController.DogsDanger -= DeleteDogSafe;  
     }
 
 

@@ -18,6 +18,7 @@ public class DogController : MonoBehaviour
     [SerializeField] float xMin, xMax, yMin, yMax;
     [SerializeField] float currentX, currentY;
     public static event Action DogsSafe;
+    public static event Action DogsDanger;
     
     
 
@@ -100,14 +101,22 @@ public class DogController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) 
     {
-        if (collision != null && collision.gameObject.tag == "Safe" )
+        if (collision != null && collision.gameObject.tag == "Safe"  )
         {
             DogsSafe?.Invoke();
-            
+            FreezeTimer();
+            transform.position = positionObjective;
         }
-      
 
+    }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision != null && collision.gameObject.tag == "Safe")
+        {
+            DogsDanger?.Invoke();
+
+        }
     }
 
 
