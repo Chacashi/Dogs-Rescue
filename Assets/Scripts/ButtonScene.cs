@@ -23,9 +23,10 @@ public class ButtonScene : MonoBehaviour
 
     void OnClick()
     {
+        
         SceneManager.LoadScene(scene);
         Time.timeScale = 1.0f;
-        
+
     }
 
 }

@@ -34,5 +34,6 @@ public class StateGameManager : MonoBehaviour
         Time.timeScale = 0.0f;
         panelWin.SetActive(true);
     }
+  
 
 }

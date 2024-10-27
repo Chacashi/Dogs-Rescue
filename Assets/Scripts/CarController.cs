@@ -25,9 +25,9 @@ public class CarController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (collision!= null && collision.gameObject.tag == "Dog")
+        if (collision!= null && (collision.gameObject.tag == "Dog" || collision.gameObject.tag == "Dog 2"))
         {
-            Destroy(gameObject);
+            Destroy(collision.gameObject);
             OnDestroyDog?.Invoke();
         }
 

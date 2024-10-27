@@ -20,8 +20,12 @@ public class PlayerController : MonoBehaviour
     bool IsTaking = false;
     public static event Action OnDestroyPlayer;
     public static event Action OnSafeDogs;
+    public static event Action OnTakingDog;
+    public static event Action OnTakingDog2;
+    public static event Action OnLeaveDogSafeZone;
+    public static event Action OnLeaveDog2SafeZone;
    [SerializeField] float speed;
-    int numberSafes = 0;
+    public int numberSafes = 0;
 
 
 
@@ -34,7 +38,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-       
+        if (numberSafes >= 2)
+        {
+            OnSafeDogs?.Invoke();
+        }
         currentX = Mathf.Clamp(transform.position.x, xMin, xMax);
         currentY = Mathf.Clamp(transform.position.y, yMin, yMax);
         transform.position = new Vector2(currentX , currentY);
@@ -52,7 +59,7 @@ public class PlayerController : MonoBehaviour
         {
             gameObject.GetComponent<SpriteRenderer>().flipY = true;
         }
-        else
+        else if (vertical>0)
         {
             gameObject.GetComponent<SpriteRenderer>().flipY = false;
         }
@@ -73,6 +80,7 @@ public class PlayerController : MonoBehaviour
     {
 
         IsTake = context.performed;
+
     }
 
     public void LetterX(InputAction.CallbackContext context)
@@ -81,7 +89,7 @@ public class PlayerController : MonoBehaviour
         {
             if(objetDog != null) { 
             objetDog.transform.SetParent(null);
-            IsTaking = false;
+            IsTaking = false;  
                 objetDog.gameObject.SetActive(true);
 
             }
@@ -104,7 +112,21 @@ public class PlayerController : MonoBehaviour
             objetDog = collision.gameObject;
 
 
-            
+            OnTakingDog?.Invoke();
+            objetDog.transform.SetParent(transform);
+            objetDog.transform.position = transform.position;
+
+            objetDog.gameObject.SetActive(false);
+
+        }
+
+        if (collision != null && collision.gameObject.tag == "Dog 2" && IsTake == true && IsTaking == false)
+        {
+            IsTaking = true;
+            objetDog = collision.gameObject;
+
+
+            OnTakingDog2?.Invoke();
             objetDog.transform.SetParent(transform);
             objetDog.transform.position = transform.position;
 
@@ -124,10 +146,27 @@ public class PlayerController : MonoBehaviour
 
         if (collision != null && collision.gameObject.tag == "Safe" && IsTaking == true)
         {
-            numberSafes++;
-            if(numberSafes >=2 ) {
-            OnSafeDogs?.Invoke();
-                 }
+
+            if (objetDog.gameObject.tag == "Dog")
+            {
+                
+                objetDog.transform.SetParent(null);
+                IsTaking = false; 
+                objetDog.gameObject.SetActive(true);
+                OnLeaveDogSafeZone?.Invoke();
+                objetDog.gameObject.transform.position = objetDog.GetComponent<DogController>().GetPositionObjective();
+            }
+            else
+            {
+                
+                objetDog.transform.SetParent(null);
+                IsTaking = false;
+                objetDog.gameObject.SetActive(true);
+                OnLeaveDog2SafeZone?.Invoke();
+                objetDog.gameObject.transform.position = objetDog.GetComponent<DogController>().GetPositionObjective();
+            }
+            
+          
 
         }
     }
@@ -140,7 +179,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+    void AddDogSafe()
+    {
+        numberSafes ++;
+    }
+
+    private void OnEnable()
+    {
+        DogController.DogsSafe += AddDogSafe;
+    }
+
+    private void OnDisable()
+    {
+        DogController.DogsSafe -= AddDogSafe;
+    }
+
 
 
 }
